@@ -21,7 +21,7 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_DATABASE: test_dusk
         ports:
-          - 3306/tcp
+          - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v2
@@ -88,7 +88,10 @@ jobs:
           php artisan pest:dusk
         env:
           APP_URL: "http://127.0.0.1:8000"
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DB_USERNAME: test_dusk
+          DB_HOST: 127.0.0.1
+          DB_CONNECTION: mysql
+          DB_PORT: 3306
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v2

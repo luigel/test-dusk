@@ -15,7 +15,10 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 uses(Tests\TestCase::class)->in('Feature');
 
-uses(DatabaseMigrations::class)
+uses(
+    \Tests\DuskTestCase::class,
+    DatabaseMigrations::class,
+)
     ->in('Browser');
 /*
 |--------------------------------------------------------------------------

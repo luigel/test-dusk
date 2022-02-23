@@ -18,9 +18,8 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_DATABASE: test_dusk
-          MYSQL_ROOT_PASSWORD: password
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -62,7 +61,7 @@ jobs:
 
       - name: Prepare Laravel Application
         run: |
-          cp .env.ci .env
+          cp .env.dusk.testing .env
           php artisan key:generate
 
       #      - name: Run tests
@@ -86,10 +85,9 @@ jobs:
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk --pest --env=ci
+          php artisan dusk --pest --env=dusk.testing
         env:
           APP_URL: "http://127.0.0.1:8000"
-          DB_PASSWORD: password
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
       - name: Upload Screenshots
         if: failure()

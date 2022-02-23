@@ -13,7 +13,6 @@ test('example test', function () {
 it('can login', function () {
    $this->browse(function (Browser $browser) {
        $user = \App\Models\User::factory()->create();
-    dd(\App\Models\User::all());
 
        $browser->visit(new LoginPage())
            ->waitFor('@email')

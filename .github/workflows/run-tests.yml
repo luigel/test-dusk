@@ -33,9 +33,6 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysql, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: pcov
 
-      - name: Start mysql service
-        run: sudo systemctl start mysql
-
       - name: Cache yarn dependencies
         uses: actions/cache@v2
         with:

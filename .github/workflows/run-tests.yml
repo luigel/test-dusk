@@ -84,6 +84,7 @@ jobs:
           chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk --pest
         env:
+          APP_ENV: ci
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
       - name: Upload Screenshots
         if: failure()

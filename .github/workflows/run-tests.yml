@@ -16,12 +16,13 @@ jobs:
           - 6379:6379
         options: --entrypoint redis-server
       mysql:
-        image: mysql:8.0.21
+        image: mysql:latest
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: dusk_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_DATABASE: test_dusk
+          MYSQL_ROOT_PASSWORD: password
         ports:
-          - 3306:3306
+          - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v2
@@ -88,6 +89,7 @@ jobs:
           php artisan dusk --pest --env=ci
         env:
           APP_URL: "http://127.0.0.1:8000"
+          DB_PASSWORD: password
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
       - name: Upload Screenshots
         if: failure()

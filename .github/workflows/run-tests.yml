@@ -85,9 +85,8 @@ jobs:
 
       - name: Run Dusk Tests
         run: |
-          php artisan migrate
           chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan pest:dusk
+          php artisan dusk --pest
         env:
           APP_URL: "http://127.0.0.1:8000"
           DB_PASSWORD: password

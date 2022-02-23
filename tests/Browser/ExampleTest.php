@@ -20,8 +20,8 @@ it('can login', function () {
            ->type('@password', 'password')
            ->check('@remember', true)
            ->press('LOG IN')
-       ->clickAtXPath('//*[@id="app"]/nav/div/div[1]/div/ul[1]/li[3]/a/button')
-       ->waitForText('CREATE SHARE')
-       ->clickAtXPath('//*[@id="app"]/nav/div/div[1]/div/ul[1]/li[3]/div/div[2]/div[2]/button');
+           ->waitForLocation('/dashboard')
+           ->assertAuthenticated()
+           ->assertPathIs('/dashboard');
    });
 });

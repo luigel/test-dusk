@@ -58,7 +58,7 @@ jobs:
 
       - name: Prepare Laravel Application
         run: |
-          cp .env.dusk.testing .env
+          cp .env.dusk.local .env
           php artisan key:generate
 
       #      - name: Run tests

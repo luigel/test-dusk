@@ -61,10 +61,8 @@ jobs:
 
       - name: Prepare Laravel Application
         run: |
-          chmod -R 777 storage bootstrap/cache
           cp .env.ci .env
           php artisan key:generate
-          php artisan config:clear
 
       #      - name: Run tests
       #        run: ./vendor/bin/pest --coverage --ci --min=80 --coverage-clover=coverage.xml
@@ -79,19 +77,17 @@ jobs:
         run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
 
       - name: Start Chrome Driver
-        run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
-          ./vendor/laravel/dusk/bin/chromedriver-linux &
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
 
       - name: Run Laravel Server
-        run: |
-          php artisan serve &
-          curl localhost:8000 &
+        run: php artisan serve &
 
       - name: Run Dusk Tests
         run: |
-          php artisan dusk --pest
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --pest --env=ci
         env:
+          APP_URL: "http://127.0.0.1:8000"
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
       - name: Upload Screenshots
         if: failure()

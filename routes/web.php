@@ -16,7 +16,6 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    dd(config('database.connections.mysql'));
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
